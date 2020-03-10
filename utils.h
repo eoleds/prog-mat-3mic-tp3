@@ -1,0 +1,77 @@
+#ifndef UTILS_H
+#define UTILS_H
+
+#include <time.h>
+#include "api.h"
+
+
+#define STRING_SIZE 16
+
+// Marcos to help measure the elapsed time.
+#define START_CHRONO(X) double X[2] = { FLA_Clock(), 0.0 };
+#define END_CHRONO(X) X[1] = FLA_Clock();
+#define PRINT_CHRONO(X, OPS) printf("%-30s: %g sec\t %g ns / op\n", (#X), (X[1] - X[0]), (X[1] - X[0]) / (double) (OPS) * 10e9)
+
+// A global variable used when FLA_Clock_helper() is defined in terms of
+// clock_gettime()/gettimeofday().
+double gtod_ref_time_sec = 0.0;
+
+/** Get a time in nanoseconds. Implementation from flame graphs. */
+double FLA_Clock()
+{
+    double the_time, norm_sec;
+    struct timespec ts;
+
+    clock_gettime( CLOCK_MONOTONIC, &ts );
+
+    if ( gtod_ref_time_sec == 0.0 )
+        gtod_ref_time_sec = ( double ) ts.tv_sec;
+
+    norm_sec = ( double ) ts.tv_sec - gtod_ref_time_sec;
+
+    the_time = norm_sec + ts.tv_nsec * 1.0e-9;
+
+    return the_time;
+}
+
+#define NUM_NAMES 4
+char first_names[NUM_NAMES][STRING_SIZE] = { "Tom", "Arthur", "Harry", "Felix"};
+char last_names[NUM_NAMES][STRING_SIZE] = { "Bombadil", "Potter", "Jedusor", "Dumbledore" };
+
+
+#define NUM_RANDS (1024 * 1024 * 128)
+// array of random numbers. Those are pregenrated because generating random number is expensive
+// and might impact benchmark time.
+int rands[NUM_RANDS];
+#define RANDOM_NUMBER(i) rands[(i) % NUM_RANDS]
+
+#define loc_from_int(i) ((float) (i % (1024)))
+
+
+
+/** Generates randomized data to load into the database */
+Person* generate_random_persons(int num_elements) {
+    Person * ps = malloc(sizeof(Person) * num_elements);
+    srand(0);
+    for(int i=0; i<NUM_RANDS ; i++) {
+        rands[i] = rand();
+    }
+    for(int i=0 ; i < num_elements ; i++) {
+        int x = rands[i % NUM_RANDS];
+        Person p;
+        p.first_name = first_names[x % NUM_NAMES];
+        p.last_name = last_names[(x >> 10) % NUM_NAMES];
+        p.age = x % 128;
+        p.latitude = loc_from_int(x);
+        p.longitude = loc_from_int(x / 1024);
+        p.male = (x & (1 << 20)) ? true : false; // true if the 20th bit is 1
+        p.wizard = x % 8 != 0; // 1 wizard in 8 persons
+        ps[i] = p;
+    }
+
+    return ps;
+}
+
+
+
+#endif

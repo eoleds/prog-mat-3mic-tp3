@@ -1,5 +1,5 @@
 
-# Programmation Orientée Matériel TP
+# Programmation Orientée Matériel TP 1 & 2
 
 L'objectif du TP est d'optimiser l'implémentation d'une base de données.
 
@@ -19,8 +19,8 @@ Regardez également les différentes fonctions dans le fichier. Ces fonctions co
 Ouvrez le fichier `base.c` qui contient l'implémentation actuelle de la base de donnée. 
 
  - Quelle est la structure en mémoire de la base de données ? Représentez la schématiquement.
- - Quelle est la mémoire occupée par la base de données pour N éléments ?
- - Quel est le nombre maximum d'élément que vous pouvez garder en RAM sur votre machine ?
+ - Quelle est la mémoire occupée par la base de données pour X éléments ?
+ - Quel est le nombre maximum d'élément que vous pouvez garder en RAM sur votre machine ? (vous pouvez trouver la taille de la RAM avec la commande `free`)
 
 Ouvrez le fichier `main.c`. Celui-ci contient du code pour générer des données et faire des tests de performance sur la base de données. Vous pouvez ignorer la plupart du code dans ce fichier et vous concentrer uniquement sur le contenu de la fonction `main`.
 
@@ -46,7 +46,7 @@ Trouvez la taille des caches sur votre machine (commande `lscpu`).
  - Pour les accès aléatoires, tracez les temps de calcul par opération en fonction de la quantité de données en mémoire. Que constatez vous ?
  - Expliquez les résultats à partir de la proportion de données pouvant entrer dans chaque niveau de cache.
 
- - Comment expliquer vous les résultats différents pour l'accès séquentiel ?
+ - Comment expliquez-vous les résultats différents pour l'accès séquentiel ?
 
 
 
@@ -62,11 +62,12 @@ On rappelle que sur les processeurs Intel modernes une ligne de cache fait 64 oc
 ```c
 Person *p = ...;
 unsigned long address = (unsigned long) p;
+...
 p = (Person *) address;
 ```
 
 - Modifiez la fonction `db_init()` pour s'assurer que tous les éléments tiennent sur une seule ligne de cache.
-- Mesurez l'impact en performance sur les accès séquentiels et aléatoires.
+- Mesurez l'impact en performance sur les accès séquentiels et aléatoires pour une taille de base de donnée assez grosse (e.g. N = 23).
 
 ## Optimisation de requêtes
 

@@ -3,16 +3,16 @@
 
 typedef struct DB {
     Person * persons;
-    int len;
+    int size;
 } DB;
 
 /** Creates a new Database from an array of Persons */
-DB* db_init(Person *persons, int len) {
+DB* db_init(Person *persons_array, int num_elements) {
     DB * db = malloc(sizeof(DB));
-    db->len = len;
-    db->persons = malloc(len * sizeof(Person));
-    for(int i = 0 ; i<len ; i++) {
-        db->persons[i] = persons[i];
+    db->size = num_elements;
+    db->persons = malloc(num_elements * sizeof(Person));
+    for(int i = 0 ; i<num_elements ; i++) {
+        db->persons[i] = persons_array[i];
     }
     return db;
 }
@@ -25,10 +25,10 @@ Person db_get(DB *db, pid person_id) {
 /** Count the number of males in the database */
 pid db_count_male(DB *db) {
     Person *ps = db->persons;
-    int len = db->len;
+    int size = db->size;
 
     int cnt = 0;
-    for(int i=0 ; i < len ; i++) {
+    for(int i=0 ; i < size ; i++) {
         if(ps[i].male == 1)
             cnt += 1;
     }
@@ -38,10 +38,10 @@ pid db_count_male(DB *db) {
 /** Returns the age of the oldest person. */
 uint32_t db_max_age(DB * db) {
     Person *ps = db->persons;
-    int len = db->len;
+    int size = db->size;
 
     uint32_t max = 0;
-    for(int i=0 ; i < len ; i++) {
+    for(int i=0 ; i < size ; i++) {
         if(ps[i].age > max)
             max = ps[i].age;
     }
@@ -51,11 +51,11 @@ uint32_t db_max_age(DB * db) {
 /** Returns the ID of the oldest person. If multiple person have the same age, this should return the one with the highest ID. */
 pid db_oldest(DB * db) {
     Person *ps = db->persons;
-    int len = db->len;
+    int size = db->size;
 
     uint32_t max = 0;
     pid oldest = -1;
-    for(int i=0 ; i < len ; i++) {
+    for(int i=0 ; i < size ; i++) {
         if(ps[i].age >= max) {
             max = ps[i].age;
             oldest = i;
@@ -72,8 +72,8 @@ pid db_oldest(DB * db) {
 pid db_closest(DB *db, float lat, float lon) {
     float min_dist = 1.0 / 0.0; // infinity
     int closest = -1;
-    int len = db->len;
-    for(int i = 0 ; i<len ; i++) {
+    int size = db->size;
+    for(int i = 0 ; i<size ; i++) {
         float dx = lat - db->persons[i].latitude;
         float dy = lon - db->persons[i].longitude;
         float dist = sqrtf(dx * dx + dy * dy);
@@ -89,9 +89,9 @@ pid db_closest(DB *db, float lat, float lon) {
 pid db_query1(DB *db, float lat, float lon) {
     float min_dist = 1.0 / 0.0; // infinity
     int closest = -1;
-    int len = db->len;
+    int size = db->size;
     Person *ps = db->persons;
-    for(int i = 0 ; i<len ; i++) {
+    for(int i = 0 ; i<size ; i++) {
         if(ps[i].male != 1)
             continue;
 
