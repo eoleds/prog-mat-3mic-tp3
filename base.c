@@ -17,7 +17,7 @@ DB* db_init(Person *persons_array, int num_elements) {
     return db;
 }
 
-/** Retruns the Person with the given id */
+/** Returns the Person with the given id */
 Person db_get(DB *db, pid person_id) {
     return db->persons[person_id];
 }

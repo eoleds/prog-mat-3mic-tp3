@@ -6,11 +6,25 @@
 
 
 #define STRING_SIZE 16
+#define NUM_REPS 10
 
-// Marcos to help measure the elapsed time.
-#define START_CHRONO(X) double X[2] = { FLA_Clock(), 0.0 };
-#define END_CHRONO(X) X[1] = FLA_Clock();
-#define PRINT_CHRONO(X, OPS) printf("%-30s: %g sec\t %g ns / op\n", (#X), (X[1] - X[0]), (X[1] - X[0]) / (double) (OPS) * 10e9)
+
+// // Marcos to help measure the elapsed time.
+// #define START_CHRONO(X) double X[2] = { FLA_Clock(), 0.0 };
+// #define END_CHRONO(X) X[1] = FLA_Clock();
+// #define PRINT_CHRONO(X, OPS) printf("%-30s: %g sec\t %g ns / op\n", (#X), (X[1] - X[0]), (X[1] - X[0]) / (double) (OPS) * 10e9)
+
+
+// Macros to help measure the elapsed time.    
+#define START_CHRONO(X) \
+double X = 1.0 / 0.0; \
+for(int _n_rep = 0 ; _n_rep<NUM_REPS; _n_rep++) { \
+    double start = FLA_Clock();
+#define STOP_CHRONO(X, OPS) \
+    double dur = FLA_Clock() - start; \
+    if(dur < X) X = dur; \
+} \
+printf("%-30s: %g sec\t %g ns / op\n", (#X), (X), (X) / (double) (OPS) * 10e9);
 
 // A global variable used when FLA_Clock_helper() is defined in terms of
 // clock_gettime()/gettimeofday().

@@ -37,65 +37,54 @@ int main(int argc, char **argv) {
         printf("Total data size: %lu Ko\n", database_size / (1024UL) );
     }
 
-
-    START_CHRONO(generation);
     Person* ps = generate_random_persons(num_elements);
-    END_CHRONO(generation);
-    PRINT_CHRONO(generation, num_elements);
 
-    START_CHRONO(db_initialisation);
     DB *db = db_init(ps, num_elements);
-    END_CHRONO(db_initialisation);
-    PRINT_CHRONO(db_initialisation, num_elements);
 
     // set the number of accesses to measure to 10M
-    uint64_t num_access = 1024 * 1024 * 1000;
+    uint64_t num_access = 1024 * 1024 * 10;
 
     // go through the entire database in sequence
     START_CHRONO(sequential_access);
     for(uint32_t i = 0 ; i < num_access ; i++) {
         db_get(db, i % num_elements);
     }
-    END_CHRONO(sequential_access);
-    PRINT_CHRONO(sequential_access, num_access);
+    STOP_CHRONO(sequential_access, num_access);
 
     // look up random
     START_CHRONO(random_access);
     for(uint32_t i = 0 ; i < num_access ; i++) {
         db_get(db, RANDOM_NUMBER(i) % num_elements);
     }
-    END_CHRONO(random_access);
-    PRINT_CHRONO(random_access, num_access);
+    STOP_CHRONO(random_access, num_access);
 
-
+    int cnt;
     START_CHRONO(count_male);
-    int cnt = db_count_male(db);
-    END_CHRONO(count_male);
-    PRINT_CHRONO(count_male, num_elements);
+    cnt = db_count_male(db);
+    STOP_CHRONO(count_male, num_elements);
 
-
+    int age;
     START_CHRONO(max_age);
-    int age = db_max_age(db);
-    END_CHRONO(max_age);
-    PRINT_CHRONO(max_age, num_elements);
+    age = db_max_age(db);
+    STOP_CHRONO(max_age, num_elements);
 
-
+    pid oldest_person;
     START_CHRONO(oldest);
-    pid oldest_person = db_oldest(db);
-    END_CHRONO(oldest);
-    PRINT_CHRONO(oldest, num_elements);
+    oldest_person = db_oldest(db);
+    STOP_CHRONO(oldest, num_elements);
 
-
+    pid id_closest;
     START_CHRONO(closest);
-    pid id_closest = db_closest(db, loc_from_int(rand()), loc_from_int(rand()));
-    END_CHRONO(closest);
-    PRINT_CHRONO(closest, num_elements);
+    id_closest = db_closest(db, loc_from_int(rand()), loc_from_int(rand()));
+    STOP_CHRONO(closest, num_elements);
 
+    pid id_query1;
     START_CHRONO(query1);
-    pid id_query1 = db_query1(db, loc_from_int(rand()), loc_from_int(rand()));
-    END_CHRONO(query1);
-    PRINT_CHRONO(query1, num_elements);
+    id_query1 = db_query1(db, loc_from_int(rand()), loc_from_int(rand()));
+    STOP_CHRONO(query1, num_elements);
 
     printf("(count_male: %d) (max-age: %d) (oldest: %ld) (closest: %ld) (query1: %ld)\n", cnt, age, oldest_person, id_closest, id_query1);
+
+    printf("Execution sucessfull\n");
     return 0;
 }

@@ -6,7 +6,7 @@ TARGETS=base
 
 all: $(TARGETS) FORCE
 
-%.o: %.c api.h
+%.o: %.c api.h utils.h
 	gcc $(CFLAGS) -S -c -o $@.asm $< # generate the assembly file
 	gcc $(CFLAGS) -c -o $@ $<
 
