@@ -7,6 +7,9 @@
 
 
 int main(int argc, char **argv) {
+    printf("Size of Person: %lu", sizeof(Person));
+
+
     int N = 25; // N default value = 25
     if (argc >= 2) {
         N = atoi(argv[1]); // read N value from arguments
@@ -35,28 +38,37 @@ int main(int argc, char **argv) {
         printf("Total data size: %lu Mo\n", database_size / (1024UL * 1024UL) );
     } else {
         printf("Total data size: %lu Ko\n", database_size / (1024UL) );
-    }
+    } 
 
-    Person* ps = generate_random_persons(num_elements);
+    // create randomized persons for the database
+    Person* ps = generate_random_persons(num_elements); 
 
+    // initialize database with the generated persons
     DB *db = db_init(ps, num_elements);
 
-    // set the number of accesses to measure to 10M
-    uint64_t num_access = 1024 * 1024 * 10;
+    // now that the database is populated, delete the generated persons
+    // they should only remain in the database
+    free(ps);
 
-    // go through the entire database in sequence
-    START_CHRONO(sequential_access);
-    for(uint32_t i = 0 ; i < num_access ; i++) {
+    // set the number of accesses to measure to 10M
+    uint64_t num_lookups = 1024 * 1024 * 10;
+
+    // do 'num_lookups' lookups into the database, each time increasing 
+    // the looked-up ID by 1.
+    START_CHRONO(sequential_lookups);
+    for(uint32_t i = 0 ; i < num_lookups ; i++) {
         db_get(db, i % num_elements);
     }
-    STOP_CHRONO(sequential_access, num_access);
+    STOP_CHRONO(sequential_lookups, num_lookups);
 
     // look up random
-    START_CHRONO(random_access);
-    for(uint32_t i = 0 ; i < num_access ; i++) {
+    // do 'num_lookups' lookups into the database, each time accessing 
+    // a random ID
+    START_CHRONO(random_lookups);
+    for(uint32_t i = 0 ; i < num_lookups ; i++) {
         db_get(db, RANDOM_NUMBER(i) % num_elements);
     }
-    STOP_CHRONO(random_access, num_access);
+    STOP_CHRONO(random_lookups, num_lookups);
 
     int cnt;
     START_CHRONO(count_male);

@@ -14,7 +14,9 @@ Le projet est fourni avec un `Makefile`, celui-ci vous permet de compiler le pro
 Ouvrez le fichier `api.h` et analysez la structure de données `struct Person`. Celle-ci représente un élément de votre base de données.
 Regardez également les différentes fonctions dans le fichier. Ces fonctions correspondent à des requêtes faîtes sur une base de données que vous devrez implémenter ou améliorer.
 
-- Quelle est la taille (en octets) d'une structure Person ?
+\sq
+ Quelle est la taille (en octets) d'une structure `Person` ?
+\eq
 
 Ouvrez le fichier `base.c` qui contient l'implémentation actuelle de la base de donnée. 
 
@@ -38,36 +40,59 @@ Regardez dans le fichier `main.c` à quoi correspondent ces tests.
 
 On souhaite étudier le passage à l'échelle de ces benchmarks en fonction du nombre d'éléments dans la base de données.
 
- - Tracez les courbes du temps par opération pour ces deux benchmarks pour N allant de 6 à 27.
- - Comment expliquez vous l'allure de ces courbes ?
+\st
+ Tracez les courbes du temps par opération pour ces deux benchmarks pour N allant de 6 à 27.
+\et
+
+\sq
+ Comment expliquez vous l'allure de ces courbes ?
+\eq 
 
 Trouvez la taille des caches sur votre machine (commande `lscpu`).
 
- - Pour les accès aléatoires, tracez les temps de calcul par opération en fonction de la quantité de données en mémoire. Que constatez vous ?
- - Expliquez les résultats à partir de la proportion de données pouvant entrer dans chaque niveau de cache.
+\sq
+ Pour les accès aléatoires, tracez les temps de calcul par opération en fonction de la quantité de données en mémoire. Que constatez vous ?
+\eq
 
- - Comment expliquez-vous les résultats différents pour l'accès séquentiel ?
+\sq
+ Expliquez les résultats à partir de la proportion de données pouvant entrer dans chaque niveau de cache.
+\eq 
 
+\sq
+ Comment expliquez-vous les résultats différents pour l'accès séquentiel ?
+\eq
 
 
 
 ### Alignement mémoire
- 
- - Combien de lignes de cache sont nécessaire pour contenir une personne ? Au minimum/maximum ?
 
 On rappelle que sur les processeurs Intel modernes une ligne de cache fait 64 octets et que, par conséquent toutes les lignes de cache commencent à une adresse multiple de 64.
+ 
+\sq
+  Combien de lignes de cache sont nécessaires pour contenir une personne ? Au minimum ? Au maximum ?
+\eq
 
-- Vérifiez l'adresse des 2 premièrs éléments de la base de données. Tiennent-t'ils bien une ligne de cache ? Vous pouvez lire et modifier la valeur d'une adresse en la convertissant en entier :
 
+\sq
+ Vérifiez l'adresse des 2 premièrs éléments de la base de données. Tiennent-t'ils bien une ligne de cache ? 
+ 
+ Note : vous pouvez lire et modifier la valeur d'une adresse en la convertissant en entier, puis en la reconvertissant en adresse :
 ```c
 Person *p = ...;
 unsigned long address = (unsigned long) p;
-...
+printf("address: %lu\n", address);
+// can change address here
 p = (Person *) address;
 ```
+\eq
 
-- Modifiez la fonction `db_init()` pour s'assurer que tous les éléments tiennent sur une seule ligne de cache.
-- Mesurez l'impact en performance sur les accès séquentiels et aléatoires pour une taille de base de donnée assez grosse (e.g. N = 23).
+\sq
+ Modifiez la fonction `db_init()` pour s'assurer que tous les éléments tiennent sur une seule ligne de cache.
+\eq
+
+\sq
+ Mesurez l'impact en performance sur les accès séquentiels et aléatoires pour une taille de base de donnée assez grosse (e.g. N = 23).
+\eq
 
 ## Optimisation de requêtes
 
