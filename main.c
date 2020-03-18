@@ -7,14 +7,14 @@
 
 
 int main(int argc, char **argv) {
-    printf("Size of Person: %lu", sizeof(Person));
+    
 
 
-    int N = 25; // N default value = 25
+    int N = 24; // N default value = 24
     if (argc >= 2) {
         N = atoi(argv[1]); // read N value from arguments
     }
-    printf("\n--------- %s %d ---------\n", argv[0], N);
+    printf("N = %d\n", N);
     uint64_t num_elements = 1UL << N; // num_elems = 2^N
 
     // exit if we didn't get at least 64 elements
@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
     }
     printf("Num elements: %lu\n", num_elements);
 
+    printf("Size of Person: %lu bytes\n", sizeof(Person));
 
     uint64_t database_size = num_elements * sizeof(Person);
 
@@ -95,7 +96,7 @@ int main(int argc, char **argv) {
     id_query1 = db_query1(db, loc_from_int(rand()), loc_from_int(rand()));
     STOP_CHRONO(query1, num_elements);
 
-    printf("(count_male: %d) (max-age: %d) (oldest: %ld) (closest: %ld) (query1: %ld)\n", cnt, age, oldest_person, id_closest, id_query1);
+    printf("Results of queries: (count_male: %d) (max-age: %d) (oldest: %ld) (closest: %ld) (query1: %ld)\n", cnt, age, oldest_person, id_closest, id_query1);
 
     printf("Execution sucessfull\n");
     return 0;

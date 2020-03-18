@@ -6,7 +6,7 @@ typedef struct DB {
     int size;
 } DB;
 
-/** Creates a new Database from an array of Persons */
+/** Creates and populates a new Database from an array of Persons */
 DB* db_init(Person *persons_array, int num_elements) {
     DB * db = malloc(sizeof(DB));
     db->size = num_elements;
@@ -14,6 +14,9 @@ DB* db_init(Person *persons_array, int num_elements) {
     for(int i = 0 ; i<num_elements ; i++) {
         db->persons[i] = persons_array[i];
     }
+
+    // HERE you can print the address of the first two elements
+
     return db;
 }
 
