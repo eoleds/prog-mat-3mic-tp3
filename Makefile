@@ -10,10 +10,10 @@ all: $(TARGETS) FORCE
 	gcc $(CFLAGS) -S -c -o $@.asm $< # generate the assembly file
 	gcc $(CFLAGS) -c -o $@ $<
 
-base: main.o base.o api.h
+base: main.o base.o 
 	gcc $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-arrays: main.o arrays.o api.h
+arrays: main.o arrays.o
 	gcc $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

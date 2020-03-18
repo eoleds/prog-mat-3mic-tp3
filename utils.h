@@ -24,7 +24,7 @@ for(int _n_rep = 0 ; _n_rep<NUM_REPS; _n_rep++) { \
     double dur = FLA_Clock() - start; \
     if(dur < X) X = dur; \
 } \
-printf("%-30s: %9.3lf ms\t %6.2lf ns / op\n", (#X), (X) * 1000.0, (X) / (double) (OPS) * 10e9);
+printf("%-30s: %10.4lf ms\t %6.2lf ns / op\n", (#X), (X) * 1000.0, (X) / (double) (OPS) * 10e9);
 
 // A global variable used when FLA_Clock_helper() is defined in terms of
 // clock_gettime()/gettimeofday().
