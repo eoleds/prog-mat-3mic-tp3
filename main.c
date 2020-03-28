@@ -7,8 +7,6 @@
 
 
 int main(int argc, char **argv) {
-    
-
 
     int N = 24; // N default value = 24
     if (argc >= 2) {
@@ -98,6 +96,6 @@ int main(int argc, char **argv) {
 
     printf("Results of queries: (count_male: %d) (max-age: %d) (oldest: %ld) (closest: %ld) (query1: %ld)\n", cnt, age, oldest_person, id_closest, id_query1);
 
-    printf("Execution sucessfull\n");
+    printf("Execution successful\n");
     return 0;
 }

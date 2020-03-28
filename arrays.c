@@ -47,7 +47,7 @@ Person db_get(DB *db, pid i) {
     return p;
 }
 
-pid db_count_male(DB *db) {
+int db_count_male(DB *db) {
     return -1;
 }
 

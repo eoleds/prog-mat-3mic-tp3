@@ -8,7 +8,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
-#include <malloc.h>
 #include <math.h>
 
 typedef struct Person {
@@ -37,7 +36,7 @@ DB* db_free(DB *);
 Person db_get(DB *db, pid person_id);
 
 /** Returns the number of males in the database. */
-pid db_count_male(DB * db);
+int db_count_male(DB * db);
 
 /** Returns the age of the oldest person. */
 uint32_t db_max_age(DB * db);

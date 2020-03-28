@@ -26,7 +26,7 @@ Person db_get(DB *db, pid person_id) {
 }
 
 /** Count the number of males in the database */
-pid db_count_male(DB *db) {
+int db_count_male(DB *db) {
     Person *ps = db->persons;
     int size = db->size;
 
@@ -98,7 +98,7 @@ pid db_query1(DB *db, float lat, float lon) {
         if(ps[i].male != 1)
             continue;
 
-        if(ps[i].wizard == 0)
+        if(ps[i].wizard == 1)
             continue;
 
         float dx = lat - ps[i].latitude;
