@@ -97,5 +97,8 @@ int main(int argc, char **argv) {
     printf("Results of queries: (count_male: %d) (max-age: %d) (oldest: %ld) (closest: %ld) (query1: %ld)\n", cnt, age, oldest_person, id_closest, id_query1);
 
     printf("Execution successful\n");
+
+    // release memory before quitting
+    db_free(db);
     return 0;
 }

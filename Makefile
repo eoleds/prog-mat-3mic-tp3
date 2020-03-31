@@ -1,6 +1,6 @@
 CC=gcc
 # Reduce optimisations to ease understanding of code
-CFLAGS=-std=gnu11 -W -Wall -O1 -Wno-unused-parameter
+CFLAGS=-std=gnu11 -W -Wall -O1 -Wno-unused-parameter -Wno-unused-variable
 LDFLAGS=-lm
 TARGETS=base
 

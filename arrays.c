@@ -34,6 +34,17 @@ DB* db_init(Person *persons, int len) {
     return db;
 }
 
+void db_free(DB * db) {
+    free(db->first_names);
+    free(db->last_names);
+    free(db->age);
+    free(db->male);
+    free(db->wizard);
+    free(db->latitude);
+    free(db->longitude);
+    free(db);
+}
+
 Person db_get(DB *db, pid i) {
     Person p = {
             .first_name = db->first_names[i],

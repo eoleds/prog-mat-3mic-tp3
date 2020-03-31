@@ -29,8 +29,8 @@ typedef int64_t pid ;
 /** Initializes the database with the 'num_elements' persons given in the array. */
 DB* db_init(Person* persons_array, int num_elements);
 
-/** Libère la mémoire utilisée par la base de données. */
-DB* db_free(DB *);
+/** Frees all memory used by the database. */
+void db_free(DB *);
 
 /** Returns the person with the given id */
 Person db_get(DB *db, pid person_id);

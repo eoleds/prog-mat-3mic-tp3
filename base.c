@@ -2,7 +2,9 @@
 
 
 typedef struct DB {
+    // array of persons
     Person * persons;
+    // number of persons in the database
     int size;
 } DB;
 
@@ -10,12 +12,21 @@ typedef struct DB {
 DB* db_init(Person *persons_array, int num_elements) {
     DB * db = malloc(sizeof(DB));
     db->size = num_elements;
-    db->persons = malloc(num_elements * sizeof(Person));
+
+    // allocate a new array to hold the persons of the database
+    unsigned long array_start = (unsigned long) malloc(num_elements * sizeof(Person));
+    // 3.K : Décaler le début du tableau pour forcer l'alignement
+    // array_start = array_start + ???;
+    db->persons = (Person *) array_start;
+
+    // copy of all persons into the database
     for(int i = 0 ; i<num_elements ; i++) {
         db->persons[i] = persons_array[i];
     }
 
-    // HERE you can print the address of the first two elements
+    // 3.J AFFICHER LES ADRESSES DES DEUX PREMIERS ELEMENTS
+    unsigned long address_first = (unsigned long) db->persons;
+    unsigned long address_second = (unsigned long) &(db->persons[1]);
 
     return db;
 }
@@ -36,6 +47,11 @@ int db_count_male(DB *db) {
             cnt += 1;
     }
     return cnt;
+}
+
+void db_free(DB * db) {
+    free(db->persons);
+    free(db);
 }
 
 /** Returns the age of the oldest person. */
@@ -79,7 +95,7 @@ pid db_closest(DB *db, float lat, float lon) {
     for(int i = 0 ; i<size ; i++) {
         float dx = lat - db->persons[i].latitude;
         float dy = lon - db->persons[i].longitude;
-        float dist = sqrtf(dx * dx + dy * dy);
+        float dist = dx * dx + dy * dy;
         if(dist < min_dist) {
             min_dist = dist;
             closest = i;
