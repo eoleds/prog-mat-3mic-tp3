@@ -99,6 +99,7 @@ int main(int argc, char **argv) {
     printf("Execution successful\n");
 
     // release memory before quitting
-    db_free(db);
+    // deactivated to enable messing with the return value of malloc
+    // db_free(db);
     return 0;
 }
