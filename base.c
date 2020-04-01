@@ -95,7 +95,7 @@ pid db_closest(DB *db, float lat, float lon) {
     for(int i = 0 ; i<size ; i++) {
         float dx = lat - db->persons[i].latitude;
         float dy = lon - db->persons[i].longitude;
-        float dist = dx * dx + dy * dy;
+        float dist = sqrtf(dx * dx + dy * dy);
         if(dist < min_dist) {
             min_dist = dist;
             closest = i;
