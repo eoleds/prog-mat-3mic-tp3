@@ -79,7 +79,7 @@ Person* generate_random_persons(int num_elements) {
         p.latitude = loc_from_int(x);
         p.longitude = loc_from_int(x / 1024);
         p.male = (x & (1 << 20)) ? true : false; // true if the 20th bit is 1
-        p.wizard = x % 8 != 0; // 1 wizard in 8 persons
+        p.wizard = (x % 8) == 0; // 1 wizard in 8 persons
         ps[i] = p;
     }
 

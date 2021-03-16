@@ -36,7 +36,7 @@ void db_free(DB *);
 Person db_get(DB *db, pid person_id);
 
 /** Returns the number of males in the database. */
-int db_count_male(DB * db);
+uint32_t db_count_male(DB * db);
 
 /** Returns the age of the oldest person. */
 uint32_t db_max_age(DB * db);
@@ -47,8 +47,8 @@ pid db_oldest(DB * db);
 /** Return ID of the closest person in the database. */
 pid db_closest(DB *db, float lat, float lon);
 
-/** Returns the male muggle closest to the indicated coordinates.  */
-pid db_query1(DB *db, float lat, float lon);
+/** Counts the number of female muggles in the database.  */
+uint32_t db_count_female_muggles(DB *db);
 
 
 

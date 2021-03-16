@@ -89,12 +89,12 @@ int main(int argc, char **argv) {
     id_closest = db_closest(db, loc_from_int(rand()), loc_from_int(rand()));
     STOP_CHRONO(closest, num_elements);
 
-    pid id_query1;
-    START_CHRONO(query1);
-    id_query1 = db_query1(db, loc_from_int(rand()), loc_from_int(rand()));
-    STOP_CHRONO(query1, num_elements);
+    uint32_t cnt_fm;
+    START_CHRONO(female_muggles);
+    cnt_fm = db_count_female_muggles(db);
+    STOP_CHRONO(female_muggles, num_elements);
 
-    printf("Results of queries: (count_male: %d) (max-age: %d) (oldest: %ld) (closest: %ld) (query1: %ld)\n", cnt, age, oldest_person, id_closest, id_query1);
+    printf("Results of queries: (count_male: %d) (max-age: %d) (oldest: %ld) (closest: %ld) (query1: %d)\n", cnt, age, oldest_person, id_closest, cnt_fm);
 
     printf("Execution successful\n");
 

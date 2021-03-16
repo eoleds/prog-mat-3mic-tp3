@@ -37,11 +37,11 @@ Person db_get(DB *db, pid person_id) {
 }
 
 /** Count the number of males in the database */
-int db_count_male(DB *db) {
+uint32_t db_count_male(DB *db) {
     Person *ps = db->persons;
     int size = db->size;
 
-    int cnt = 0;
+    uint32_t cnt = 0;
     for(int i=0 ; i < size ; i++) {
         if(ps[i].male == 1)
             cnt += 1;
@@ -79,10 +79,8 @@ pid db_oldest(DB * db) {
             max = ps[i].age;
             oldest = i;
         }
-
     }
     return oldest;
-
 }
 
 
@@ -104,26 +102,43 @@ pid db_closest(DB *db, float lat, float lon) {
     return closest;
 }
 
-/** Find the closest male muggle to the indicated point */
-pid db_query1(DB *db, float lat, float lon) {
-    float min_dist = 1.0 / 0.0; // infinity
-    int closest = -1;
+/** Counts the number of female muggles in the database */
+uint32_t db_count_female_muggles(DB *db) {
     int size = db->size;
     Person *ps = db->persons;
+    
+    // counter for female muggles
+    uint32_t count = 0;
+    
     for(int i = 0 ; i<size ; i++) {
-        if(ps[i].male != 1)
-            continue;
+        // 1 if the person is a wizard
+        // 0 if the person is a muggle (non-wizard)
+        char wizard = ps[i].wizard;
 
-        if(ps[i].wizard == 1)
-            continue;
+        // 1 if the person is male
+        // 0 if the person is female
+        char male = ps[i].male;
 
-        float dx = lat - ps[i].latitude;
-        float dy = lon - ps[i].longitude;
-        float dist = sqrtf(dx * dx + dy * dy);
-        if(dist < min_dist) {
-            min_dist = dist;
-            closest = i;
-        }
+        // if the person is male, skip the rest of the loop
+        if(male == 1)
+            continue;
+        
+        // This was previously:
+        //     if (wizard == 0) {
+        //         count += 1;
+        //     }
+        //
+        // A very clever intern told us 
+        // that the result of  `wizard == 0` is
+        //   - `1` if wizard has the value 0 
+        //   - `0` otherwise
+        //
+        // Thus adding the result of `wizard == 0`
+        // to the counter is equivalent to the previous
+        // conditional increment
+
+        count += (wizard == 0);  
+        
     }
-    return closest;
+    return count;
 }

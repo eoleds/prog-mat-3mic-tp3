@@ -1,5 +1,13 @@
 #include "api.h"
 
+/** Allocate the given number of bytes such that the 
+ *  returned address is always aligned on 32 bytes */
+void * malloc_aligned(size_t size) {
+    // round up the allocated size to a multiple of 32
+    size_t aligned_size = size + 32 - (size % 32);
+    return aligned_alloc(32, aligned_size);
+}
+
 typedef struct DB {
     char **first_names;
     char **last_names;
@@ -8,19 +16,19 @@ typedef struct DB {
     char *wizard;
     float *latitude;
     float *longitude;
-    int len;
+    int len; // number of persons in the database
 } DB;
 
 
 DB* db_init(Person *persons, int len) {
     DB * db = malloc(sizeof(DB));
-    db->first_names = malloc(sizeof(char *) * len);
-    db->last_names = malloc(sizeof(char *) * len);
-    db->age = malloc(sizeof(uint32_t) * len);
-    db->male = malloc(sizeof(char) * len);
-    db->wizard = malloc(sizeof(char) * len);
-    db->latitude = malloc(sizeof(float) * len);
-    db->longitude = malloc(sizeof(float) * len);
+    db->first_names = malloc_aligned(sizeof(char *) * len);
+    db->last_names = malloc_aligned(sizeof(char *) * len);
+    db->age = malloc_aligned(sizeof(uint32_t) * len);
+    db->male = malloc_aligned(sizeof(char) * len);
+    db->wizard = malloc_aligned(sizeof(char) * len);
+    db->latitude = malloc_aligned(sizeof(float) * len);
+    db->longitude = malloc_aligned(sizeof(float) * len);
     db->len = len;
     for(int i = 0 ; i<len ; i++) {
         db->first_names[i] = persons[i].first_name;
@@ -58,7 +66,7 @@ Person db_get(DB *db, pid i) {
     return p;
 }
 
-int db_count_male(DB *db) {
+uint32_t db_count_male(DB *db) {
     return -1;
 }
 
@@ -76,6 +84,6 @@ pid db_closest(DB *db, float lat, float lon) {
     return -1;
 }
 
-pid db_query1(DB *db, float lat, float lon) {
-    return -1;
+uint32_t db_count_female_muggles(DB *db) {
+    return 0;
 }
