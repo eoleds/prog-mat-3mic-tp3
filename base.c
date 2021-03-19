@@ -15,7 +15,7 @@ DB* db_init(Person *persons_array, int num_elements) {
 
     // allocate a new array to hold the persons of the database
     unsigned long array_start = (unsigned long) malloc(num_elements * sizeof(Person));
-    // 3.K : Décaler le début du tableau pour forcer l'alignement
+    // 2.K : Décaler le début du tableau pour forcer l'alignement
     // array_start = array_start + ???;
     db->persons = (Person *) array_start;
 
@@ -24,7 +24,7 @@ DB* db_init(Person *persons_array, int num_elements) {
         db->persons[i] = persons_array[i];
     }
 
-    // 3.J AFFICHER LES ADRESSES DES DEUX PREMIERS ELEMENTS
+    // 2.J AFFICHER LES ADRESSES/DECALAGE DES DEUX PREMIERS ELEMENTS
     unsigned long address_first = (unsigned long) db->persons;
     unsigned long address_second = (unsigned long) &(db->persons[1]);
 
