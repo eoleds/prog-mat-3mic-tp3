@@ -1,4 +1,4 @@
 arrays
 base
 *.o
-*.o.asm
+*.o.s
