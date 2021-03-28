@@ -6,7 +6,7 @@
 
 
 #define STRING_SIZE 16
-#define NUM_REPS 10
+#define NUM_REPS 1
 
 
 // // Marcos to help measure the elapsed time.
@@ -86,6 +86,33 @@ Person* generate_random_persons(int num_elements) {
     return ps;
 }
 
+
+Request * generate_random_requests(int num_persons, int num_requests) {
+    uint64_t * results = malloc(sizeof(uint64_t) * num_persons);
+    void * result_slot = malloc(64);
+    // void * result_slot = NULL;
+    
+    Request * array = malloc(sizeof(Request) * num_requests);
+    for(int i=0; i<num_requests; i++) {
+        int x = rands[i % NUM_RANDS] % 100;
+        Request r;
+        if (x< 70) {
+            r.op = GET_DIST;
+        } else if (x <= 80) {
+            r.op = GET_AGE;
+        } else {
+            r.op = SET_AGE;
+            r.value = 20;
+        }
+        // r.person_id = rand() % num_persons; 
+        // r.person_id = (rand() & 0xFFFF00FF) % num_persons;
+         r.person_id = (rand() & 0xFFFFFF00) % num_persons;
+        // r.person_id = rands[rand() % 10000] % num_persons; 
+        r.result = (void *) &results[r.person_id];
+        array[i] = r;
+    }
+    return array;
+}
 
 
 #endif

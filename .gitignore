@@ -2,3 +2,4 @@ arrays
 base
 *.o
 *.o.s
+.vscode
