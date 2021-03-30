@@ -28,6 +28,18 @@ uint32_t extract_uint32(__m256i epu32_vector, int index) {
     }
 }
 
+// Extract the smallest float in a SIMD 256bits vector. 
+float min_float_in_vector(__m256 floats) {
+    float min = extract_float(floats, 0);
+    for(int i=1; i<8; i++) {
+        float candidate = extract_float(floats, i);
+        if (candidate < min) {
+            min = candidate;
+        }
+    }
+    return min;
+}
+
 // Prints the 8 float values of a SIMD 256bits vector.
 // The provided label will be printed at the beginning of the line
 void print_vec(char * label, __m256 vec) {

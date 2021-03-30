@@ -166,6 +166,7 @@ float db_min_dist_simd(DB *db, float lat, float lon) {
     int size = db->size;
     float * latitudes = db->latitudes;
     float * longitudes = db->longitudes;
+
     __m256 base_lat = _mm256_set1_ps(lat);
     print_vec("base lat", base_lat);
 
@@ -177,7 +178,12 @@ float db_min_dist_simd(DB *db, float lat, float lon) {
     print_vec("dxs", dxs);
 
     printf(" =======================\n");
-    
+
+
+    // TODO: at the end, we should get the minimal value in the vector of
+    // the 8 minimal squared distances and return its squared root
+    // float min = min_float_in_vector(...);
+    // return sqrtf(min);
     exit(1);
 }
 
