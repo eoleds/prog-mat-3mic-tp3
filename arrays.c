@@ -218,12 +218,12 @@ pid db_closest(DB *db, float lat, float lon) {
 typedef struct ThreadParams {
     // Database on which to operate.
     DB * db; 
-    // An array of all requests that must handled globally. 
-    // The thread will typically carry out only a subset of those
+    // An array of all requests that must be handled collectively by all threads. 
+    // The thread will typically carry out only a subset of those.
     Request * requests;
     // Number of requests in the array.
     int num_requests;
-    // ID of the thread.f there are N threads running, the number should be in [0, N[
+    // ID of the thread. If there are N threads running, the number should be in [0, N[
     int thread_id;
     // Total number of threads running.
     int num_threads;
@@ -297,12 +297,13 @@ void db_process_many_requests(DB * db, Request * req_array, int num_requests) {
     }
 }
 
-/** This is a handler run on each started thread of the "base" parallel model. 
+/** This is the handler run on each started thread of the "base" parallel model. 
  *  It must handle a subset of the requests and exit.
  *  Its ThreadParams parameters contains:
  *   - the requests that must be handle collectively on all threads
+ *   - the database on which to perform the requests
  *   - the total number of threads
- *   - the id of this thread in [O, num_threads]
+ *   - the id of this thread in [O, num_threads[]
 */
 void * thread_process_requests_base(void * thread_params) {
     // Cast the parameters passed to this thread to the right type
@@ -321,15 +322,20 @@ void * thread_process_requests_base(void * thread_params) {
     return NULL;
 }
 
+/** This is the handler run on each started thread of the "split" parallel model. 
+ *  It must handle all request that are on a the persons the running thread 
+ *  is responsible for.
+*/
 void * thread_process_requests_split(void * thread_params) {
     // Cast the parameters passed to this thread to the right type
     ThreadParams params = *((ThreadParams *) thread_params);
 
-    // 3.I: use params to determine which requests we are responsible of
+    // 3.I: use params to determine which persons this thread is responsible of
+    //      depending on the thread_id
 
     
     for(int i=0; i<params.num_requests; i++) {
-        // todo: handle the requests we are responsible of
+        // 3.I: handle the i-th request if it is on a person we are responsible of
     }
     
 
