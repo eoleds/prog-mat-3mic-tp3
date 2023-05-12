@@ -93,7 +93,7 @@ Person db_get(DB *db, pid i) {
 
 
 /** Returns the age of the oldest person. */
-uint32_t db_max_age(DB * db) {
+/*uint32_t db_max_age(DB * db) {
     uint32_t * ages = db->age;
     int size = db->size;
     uint32_t max = 0;
@@ -103,10 +103,10 @@ uint32_t db_max_age(DB * db) {
         max = max < age ? age : max;
     }
     return max;
-}
+}*/
 
 /** Returns the age of the oldest person. */
-uint32_t db_max_age_simd(DB * db) {
+uint32_t db_max_age(DB * db) {
     // the array of ages
     uint32_t * ages = db->age;
 

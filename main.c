@@ -115,17 +115,17 @@ int main(int argc, char **argv) {
     report_accesses_and_clear(db, num_requests);
 
     // // 3.B: décommentez pour activer
-    // START_CHRONO(many_requests_par);
-    // db_process_many_requests_parallel(db, requests, num_requests, num_threads, false);
-    // STOP_CHRONO(many_requests_par, num_requests);
-    // report_accesses_and_clear(db, num_requests);
+    START_CHRONO(many_requests_par);
+    db_process_many_requests_parallel(db, requests, num_requests, num_threads, false);
+    STOP_CHRONO(many_requests_par, num_requests);
+    report_accesses_and_clear(db, num_requests);
 
 
     // // 3.H décommenter pour activer
-    // START_CHRONO(many_requests_par_split);
-    // db_process_many_requests_parallel(db, requests, num_requests, num_threads, true);
-    // STOP_CHRONO(many_requests_par_split, num_requests);
-    // report_accesses_and_clear(db, num_requests);
+    START_CHRONO(many_requests_par_split);
+    db_process_many_requests_parallel(db, requests, num_requests, num_threads, true);
+    STOP_CHRONO(many_requests_par_split, num_requests);
+    report_accesses_and_clear(db, num_requests);
     
     
 
