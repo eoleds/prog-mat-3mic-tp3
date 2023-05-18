@@ -122,10 +122,10 @@ int main(int argc, char **argv) {
 
 
     // // 3.H décommenter pour activer
-    START_CHRONO(many_requests_par_split);
+    /*START_CHRONO(many_requests_par_split);
     db_process_many_requests_parallel(db, requests, num_requests, num_threads, true);
     STOP_CHRONO(many_requests_par_split, num_requests);
-    report_accesses_and_clear(db, num_requests);
+    report_accesses_and_clear(db, num_requests);*/
     
     
 
